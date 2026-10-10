@@ -210,6 +210,11 @@ input:focus{outline:none;border-color:var(--violet)}
 .field.invalid input[type=text],.field.invalid input[type=email],.field.invalid input[type=tel]{border-color:#F87171}
 .submit{width:100%;font-size:17px;padding:17px}
 .submit[disabled]{opacity:.6;cursor:wait}
+.submit .when-loading{display:none}
+.submit.loading .when-idle{display:none}
+.submit.loading .when-loading{display:inline-flex;align-items:center;gap:10px}
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 .form-foot{text-align:center;color:var(--dim);font-size:13.5px;margin-top:14px}
 .thanks{display:none;text-align:center;padding:24px 8px}
 .thanks .ok{width:64px;height:64px;border-radius:50%;background:rgba(52,211,153,.14);color:var(--mint);display:grid;place-items:center;font-size:30px;margin:0 auto 20px}
@@ -612,7 +617,8 @@ footer nav{display:flex;flex-wrap:wrap;gap:18px}
         </fieldset>
 
         <button type="submit" class="btn btn-primary submit" id="submitBtn">
-          <span data-lang="pt">Enviar pré-inscrição</span><span data-lang="en">Send pre-registration</span>
+          <span class="when-idle"><span data-lang="pt">Enviar pré-inscrição</span><span data-lang="en">Send pre-registration</span></span>
+          <span class="when-loading"><span class="spinner"></span><span data-lang="pt">Enviando...</span><span data-lang="en">Sending...</span></span>
         </button>
         <p class="form-foot"><span data-lang="pt">Usamos seus dados apenas para falar sobre o letramento.</span><span data-lang="en">We only use your data to contact you about the workshop.</span></p>
       </form>
@@ -909,7 +915,12 @@ const YEAR = 2027, MONTH = 0, FIRST_DAY = 14, LAST_DAY = 26, MAX_DAYS = 3;
     }
     if (!validate()) return;
     const btn = document.getElementById("submitBtn");
-    btn.disabled = true;
+    const setLoading = on => {
+      btn.disabled = on;
+      btn.classList.toggle("loading", on);
+      btn.setAttribute("aria-busy", on);
+    };
+    setLoading(true);
 
     const data = {
       nome: normName(form.nome.value),
@@ -941,7 +952,7 @@ const YEAR = 2027, MONTH = 0, FIRST_DAY = 14, LAST_DAY = 26, MAX_DAYS = 3;
       document.getElementById("formCard").classList.add("done");
       document.getElementById("formCard").scrollIntoView({behavior:"smooth", block:"center"});
     } catch(err){
-      btn.disabled = false;
+      setLoading(false);
       alert(html.dataset.l === "en"
         ? "We couldn't send your pre-registration. Check your connection and try again."
         : "Não foi possível enviar sua pré-inscrição. Verifique sua conexão e tente novamente.");
