@@ -67,7 +67,7 @@ header.scrolled{border-bottom-color:var(--line)}
 
 /* Hero */
 .hero{padding:80px 0 72px}
-.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
 .pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
 .pill{font-size:13px;font-weight:600;color:#DCD6FF;background:#1A1530;border:1px solid #2F2650;padding:6px 12px;border-radius:999px}
 .hero h1{font-size:clamp(38px,6vw,66px);font-weight:800;margin-bottom:24px;max-width:15ch}
@@ -76,20 +76,21 @@ header.scrolled{border-bottom-color:var(--line)}
 .hero-video{display:flex;flex-direction:column;align-items:center}
 .vframe{position:relative;width:100%;max-width:340px;aspect-ratio:9/16;border-radius:26px;overflow:hidden;background:var(--surface);border:1px solid #33295A;box-shadow:0 40px 90px -35px rgba(139,92,246,.45)}
 .vframe video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000}
-.vfallback{position:absolute;inset:0;display:grid;grid-template-rows:repeat(2,minmax(0,1fr));gap:10px}
-.vfallback img{width:100%;height:100%;min-height:0;object-fit:cover;object-position:top;border-radius:18px}
-.vframe:not(.playing):not(.has-poster){background:transparent;border-color:transparent;box-shadow:none;overflow:visible}
-.vframe:not(.playing):not(.has-poster) video{background:transparent}
-.vframe:not(.playing):not(.has-poster)::after{border-radius:18px;background:linear-gradient(180deg,transparent 55%,rgba(10,10,18,.85))}
+.hero-video{gap:24px}
+.hero-photos{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,1.6vw,20px)}
+.hero-photos figure{margin:0;min-width:0}
+.hero-photos .photo{aspect-ratio:3/4;border-radius:22px;overflow:hidden;border:1px solid rgba(236,236,243,.12)}
+.hero-photos img{display:block;width:100%;height:100%;object-fit:cover;object-position:center top}
+.hero-photos figcaption{margin-top:14px;font-size:14px;line-height:1.5;color:var(--muted)}
+.hero-photos figcaption strong{display:block;font-family:var(--display);font-weight:700;font-size:16px;color:#fff}
+.vframe[hidden]{display:none}
 .vframe::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(10,10,18,.85));pointer-events:none;transition:opacity .2s}
-.vframe.playing::after,.vframe.playing .vplay,.vframe.has-poster .vfallback,.vframe.playing .vfallback{opacity:0;visibility:hidden}
+.vframe.playing::after,.vframe.playing .vplay{opacity:0;visibility:hidden}
 .vplay{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);z-index:2;display:flex;align-items:center;gap:10px;white-space:nowrap;background:#fff;color:#0A0A12;border:0;border-radius:999px;padding:12px 20px 12px 12px;font:700 15px var(--body);cursor:pointer;transition:transform .15s}
 .vplay:hover{transform:translateX(-50%) scale(1.03)}
 .vplay i{width:32px;height:32px;border-radius:50%;background:var(--violet-strong);position:relative}
 .vplay i::after{content:"";position:absolute;left:12px;top:9px;border-left:11px solid #fff;border-top:7px solid transparent;border-bottom:7px solid transparent}
-.vcaption{margin-top:14px;color:var(--muted);font-size:14px;font-weight:600}
-.hero-grid{grid-template-columns:1.35fr .65fr}
-@media (max-width:900px){.hero-grid{grid-template-columns:1fr;gap:40px}.vframe{max-width:300px}}
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr;gap:40px}.hero-photos{max-width:640px}.vframe{max-width:300px}}
 
 /* Facts row */
 .facts{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -280,18 +281,23 @@ footer nav{display:flex;flex-wrap:wrap;gap:18px}
     </div>
 
     <div class="hero-video">
-      <div class="vframe" id="vframe">
+      <div class="hero-photos">
+        <figure>
+          <div class="photo"><picture><source srcset="/assets/bruno.webp" type="image/webp"><img src="/assets/bruno.jpg" alt="Retrato de Bruno Mello" width="720" height="960" fetchpriority="high" decoding="async"></picture></div>
+          <figcaption><strong>Bruno Mello</strong><span data-lang="pt">CEO &amp; Cofundador</span><span data-lang="en">CEO &amp; Co-founder</span></figcaption>
+        </figure>
+        <figure>
+          <div class="photo"><picture><source srcset="/assets/anderson.webp" type="image/webp"><img src="/assets/anderson.jpg" alt="Retrato de Anderson Alves" width="720" height="960" fetchpriority="high" decoding="async"></picture></div>
+          <figcaption><strong>Anderson Alves</strong><span data-lang="pt">CTO &amp; Cofundador</span><span data-lang="en">CTO &amp; Co-founder</span></figcaption>
+        </figure>
+      </div>
+      <div class="vframe" id="vframe" hidden>
         <video id="heroVideo" playsinline preload="metadata"></video>
-        <div class="vfallback" aria-hidden="true">
-          <img src="https://knowai.today/assets/bruno.jpg" alt="">
-          <img src="https://knowai.today/assets/anderson.jpg" alt="">
-        </div>
         <button type="button" class="vplay" id="vplay">
           <i aria-hidden="true"></i>
           <span data-lang="pt">Assistir à apresentação</span><span data-lang="en">Watch the introduction</span>
         </button>
       </div>
-      <p class="vcaption">Bruno Mello &amp; Anderson Alves</p>
     </div>
   </div>
 </section>
@@ -719,6 +725,7 @@ const YEAR = 2027, MONTH = 0, FIRST_DAY = 14, LAST_DAY = 26, MAX_DAYS = 3;
   function loadVideo(l){
     const v = VIDEO[l] && VIDEO[l].src ? VIDEO[l] : (VIDEO.pt.src ? VIDEO.pt : VIDEO.en);
     vframe.classList.remove("playing");
+    vframe.hidden = !v.src;
     video.removeAttribute("controls");
     if (!v.src){ video.removeAttribute("src"); vplay.style.display = "none"; return; }
     vplay.style.display = "";
