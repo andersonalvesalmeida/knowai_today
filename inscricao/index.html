@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-l="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Letramento de IA Personalizado nos EUA | Bruno Mello e Anderson Alves</title>
+<meta name="description" content="Letramento de IA presencial em Nova York e no Texas, criado do zero para o seu grupo. Turmas fechadas por segmento, até 30 pessoas, em português ou inglês, com 30 dias do AIfred, seu mentor de IA.">
+<meta property="og:title" content="Letramento de IA Personalizado nos EUA">
+<meta property="og:description" content="Um workshop de IA desenhado para o seu grupo, presencial em Nova York e no Texas. Pré-inscrição aberta para janeiro de 2027.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0A0A12">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<!-- Validação de telefone internacional (metadados completos "max") -->
+<script src="https://cdn.jsdelivr.net/npm/libphonenumber-js@1.13.15/bundle/libphonenumber-max.js" integrity="sha384-KFpFw4Q7EIpeK/WJ3azDRjpDeYmDLF9DdzBb3LMPtHHFi/99I94irctbZUeBVBQv" crossorigin="anonymous" defer></script>
+<style>
+:root{
+  --bg:#0A0A12; --surface:#11111B; --surface-2:#171724; --line:#24243A;
+  --text:#F2F2F7; --muted:#A1A1B8; --dim:#6E6E88;
+  --violet:#A78BFA; --violet-strong:#8B5CF6; --mint:#34D399;
+  --display:"Poppins",system-ui,sans-serif;
+  --body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --wrap:1080px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--violet);outline-offset:3px;border-radius:6px}
+
+html[data-l="pt"] [data-lang="en"], html[data-l="en"] [data-lang="pt"]{display:none!important}
+
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+section{padding:96px 0}
+.tag{font-family:var(--mono);font-size:14px;color:var(--violet);margin-bottom:12px;display:block}
+h1,h2,h3{font-family:var(--display);line-height:1.12;letter-spacing:-.02em}
+h2{font-size:clamp(30px,4.4vw,46px);font-weight:800;margin-bottom:20px;max-width:22ch}
+h3{font-size:20px;font-weight:700}
+.lead{color:var(--muted);font-size:18px;max-width:62ch}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--body);font-weight:700;font-size:16px;padding:15px 26px;border-radius:12px;text-decoration:none;cursor:pointer;border:0;transition:transform .15s,background .15s}
+.btn-primary{background:var(--violet-strong);color:#fff}
+.btn-primary:hover{background:#7C4DF0;transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--violet)}
+
+/* Top strip */
+.strip{background:#14102A;border-bottom:1px solid var(--line);font-size:14px;color:#D9D3FF;text-align:center;padding:9px 16px}
+.strip b{color:#fff}
+
+/* Header */
+header{position:sticky;top:0;z-index:20;background:rgba(10,10,18,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid transparent}
+header.scrolled{border-bottom-color:var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+.logo{font-family:var(--display);font-weight:800;font-size:19px;text-decoration:none;letter-spacing:-.01em}
+.logo span{color:var(--violet)}
+.nav-right{display:flex;align-items:center;gap:14px}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;padding:3px}
+.lang button{background:none;border:0;color:var(--muted);font:600 13px var(--body);padding:6px 12px;border-radius:999px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--surface-2);color:#fff}
+.nav .btn{padding:10px 18px;font-size:14px}
+@media (max-width:640px){.nav .btn{display:none}}
+
+/* Hero */
+.hero{padding:80px 0 72px}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+.pill{font-size:13px;font-weight:600;color:#DCD6FF;background:#1A1530;border:1px solid #2F2650;padding:6px 12px;border-radius:999px}
+.hero h1{font-size:clamp(38px,6vw,66px);font-weight:800;margin-bottom:24px;max-width:15ch}
+.hero .lead{margin-bottom:34px}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:12px}
+.hero-video{display:flex;flex-direction:column;align-items:center}
+.vframe{position:relative;width:100%;max-width:340px;aspect-ratio:9/16;border-radius:26px;overflow:hidden;background:var(--surface);border:1px solid #33295A;box-shadow:0 40px 90px -35px rgba(139,92,246,.45)}
+.vframe video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000}
+.vfallback{position:absolute;inset:0;display:grid;grid-template-rows:1fr 1fr}
+.vfallback img{width:100%;height:100%;object-fit:cover;object-position:top}
+.vframe::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(10,10,18,.85));pointer-events:none;transition:opacity .2s}
+.vframe.playing::after,.vframe.playing .vplay,.vframe.has-poster .vfallback,.vframe.playing .vfallback{opacity:0;visibility:hidden}
+.vplay{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);z-index:2;display:flex;align-items:center;gap:10px;white-space:nowrap;background:#fff;color:#0A0A12;border:0;border-radius:999px;padding:12px 20px 12px 12px;font:700 15px var(--body);cursor:pointer;transition:transform .15s}
+.vplay:hover{transform:translateX(-50%) scale(1.03)}
+.vplay i{width:32px;height:32px;border-radius:50%;background:var(--violet-strong);position:relative}
+.vplay i::after{content:"";position:absolute;left:12px;top:9px;border-left:11px solid #fff;border-top:7px solid transparent;border-bottom:7px solid transparent}
+.vcaption{margin-top:14px;color:var(--muted);font-size:14px;font-weight:600}
+.hero-grid{grid-template-columns:1.35fr .65fr}
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr;gap:40px}.vframe{max-width:300px}}
+
+/* Facts row */
+.facts{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.fact{padding:22px 20px;border-right:1px solid var(--line)}
+.fact:last-child{border-right:0}
+.fact small{display:block;color:var(--dim);font-size:13px;margin-bottom:4px}
+.fact strong{font-weight:700;font-size:16px}
+@media (max-width:760px){.facts{grid-template-columns:1fr 1fr}.fact:nth-child(2){border-right:0}.fact:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+
+/* Included */
+.deliverables{list-style:none;margin-top:40px;display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--surface)}
+.deliverables li{display:flex;gap:14px;align-items:flex-start;padding:22px 26px;font-size:17.5px;font-weight:600;border-bottom:1px solid var(--line)}
+.deliverables li:nth-child(odd){border-right:1px solid var(--line)}
+.deliverables li:nth-last-child(-n+2){border-bottom:0}
+.deliverables li::before{content:"✓";flex:none;width:26px;height:26px;border-radius:50%;background:rgba(52,211,153,.14);color:var(--mint);display:grid;place-items:center;font-size:14px;font-weight:800;margin-top:1px}
+.deliverables li:first-child{background:#130F22}
+.bonus{margin-top:24px;border:1px dashed #3A2E66;border-radius:20px;padding:26px 28px;background:linear-gradient(160deg,#17122B 0%,#11101B 70%)}
+.bonus .badge{display:inline-block;font-size:12px;font-weight:700;color:#0A0A12;background:var(--mint);padding:4px 10px;border-radius:999px;margin-bottom:14px}
+.bonus-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+.bonus h3{font-size:21px;margin-bottom:8px}
+.bonus p{color:#CFCAE8;font-size:15.5px}
+.bonus ul{list-style:none;display:grid;gap:8px}
+.bonus li{padding-left:22px;position:relative;color:#E6E3F5;font-size:15px}
+.bonus li::before{content:"";position:absolute;left:3px;top:9px;width:8px;height:8px;border-radius:50%;background:var(--violet)}
+@media (max-width:760px){.deliverables{grid-template-columns:1fr}.deliverables li:nth-child(odd){border-right:0}.deliverables li:nth-last-child(2){border-bottom:1px solid var(--line)}.bonus-grid{grid-template-columns:1fr;gap:16px}}
+.price{margin-top:24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;background:var(--surface-2);border:1px solid var(--line);border-radius:18px;padding:24px 28px}
+.price-val{font-family:var(--display);font-weight:800;font-size:40px;line-height:1}
+.price-val small{font-family:var(--body);font-size:15px;font-weight:600;color:var(--muted);margin-left:6px}
+.price p{color:var(--muted);font-size:14.5px;margin-top:6px}
+
+/* AIfred chat */
+.alfred-sec{background:radial-gradient(900px 420px at 80% 30%,rgba(139,92,246,.13),transparent 70%)}
+.alfred-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.alfred-points{list-style:none;display:grid;gap:22px;margin-top:30px}
+.alfred-points h3{font-size:17px;margin-bottom:4px}
+.alfred-points p{color:var(--muted);font-size:15.5px}
+.chat{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 30px 80px -30px rgba(139,92,246,.35)}
+.chat-top{display:flex;align-items:center;gap:12px;padding:4px 6px 16px;border-bottom:1px solid var(--line);margin-bottom:16px}
+.chat-av{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--violet-strong),#5B3FD1);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:15px}
+.chat-top strong{display:block;font-size:15px}
+.chat-top small{color:var(--mint);font-size:12.5px}
+.msg{max-width:88%;padding:12px 15px;border-radius:16px;font-size:14.5px;line-height:1.55;margin-bottom:12px}
+.msg-u{margin-left:auto;background:var(--violet-strong);color:#fff;border-bottom-right-radius:5px}
+.msg-a{background:var(--surface-2);border:1px solid var(--line);border-bottom-left-radius:5px;color:#E3E3EE}
+.msg-a .who{display:block;font-size:12px;font-weight:700;color:var(--violet);margin-bottom:4px}
+.chat-src{font-size:12px;color:var(--dim);margin:-4px 0 4px 4px}
+@media (max-width:900px){.alfred-grid{grid-template-columns:1fr;gap:40px}}
+
+/* Comparison */
+.compare{margin-top:40px;border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.compare-row{display:grid;grid-template-columns:1fr 1fr}
+.compare-row > div{padding:18px 24px;border-bottom:1px solid var(--line);font-size:15.5px}
+.compare-row:last-child > div{border-bottom:0}
+.compare-row > div:first-child{color:var(--dim);border-right:1px solid var(--line)}
+.compare-row > div:last-child{background:#130F22;color:#fff}
+.compare-head > div{font-family:var(--display);font-weight:700;font-size:15px;color:var(--text)!important}
+.compare-head > div:last-child{color:var(--violet)!important}
+@media (max-width:640px){.compare-row > div{padding:14px 16px;font-size:14.5px}}
+
+/* Steps */
+.steps{list-style:none;margin-top:44px;display:grid;grid-template-columns:repeat(5,1fr);gap:0;counter-reset:s;border-top:1px solid var(--line)}
+.steps li{counter-increment:s;padding:26px 20px 0 0;position:relative}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;border:1px solid var(--violet);color:var(--violet);font-family:var(--mono);font-size:14px;margin-bottom:16px;background:var(--bg);margin-top:-44px}
+.steps h3{font-size:17px;margin-bottom:6px}
+.steps p{color:var(--muted);font-size:15px}
+@media (max-width:900px){.steps{grid-template-columns:1fr;border-top:0;border-left:1px solid var(--line);margin-left:17px;gap:28px}.steps li{padding:0 0 0 30px}.steps li::before{position:absolute;left:-18px;top:0;margin:0}}
+
+/* Topics */
+.topics{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
+.topics span{border:1px solid var(--line);background:var(--surface);padding:10px 16px;border-radius:12px;font-size:15px;font-weight:600}
+.note{margin-top:22px;color:var(--dim);font-size:14.5px}
+
+/* Team */
+.team{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px}
+.person{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.person img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top;background:var(--surface-2)}
+.person div{padding:26px}
+.person small{color:var(--violet);font-weight:700;font-size:13.5px}
+.person h3{font-size:24px;margin:4px 0 12px}
+.person p{color:var(--muted);font-size:15.5px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:44px}
+.stats strong{font-family:var(--display);font-weight:800;font-size:30px;display:block;line-height:1.1}
+.stats span{color:var(--muted);font-size:14.5px}
+@media (max-width:760px){.team{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
+
+/* Where */
+.where{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:36px}
+.where > div{border:1px solid var(--line);border-radius:18px;padding:28px;background:var(--surface)}
+.where h3{margin-bottom:8px}
+.where p{color:var(--muted);font-size:15.5px}
+@media (max-width:760px){.where{grid-template-columns:1fr}}
+
+/* Form */
+.form-sec{background:linear-gradient(180deg,transparent,#0E0C1C 30%,#0E0C1C)}
+.form-wrap{max-width:760px;margin:0 auto}
+.form-card{background:var(--surface);border:1px solid #33295A;border-radius:24px;padding:40px;margin-top:36px}
+.field{margin-bottom:26px}
+.field > label, .field legend{display:block;font-weight:700;font-size:15px;margin-bottom:10px}
+.field legend small, .field > label small{font-weight:500;color:var(--dim);margin-left:6px}
+fieldset{border:0}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+input[type=text],input[type=email],input[type=tel]{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--text);font:500 16px var(--body);padding:14px 16px;border-radius:12px}
+input::placeholder{color:var(--dim)}
+input:focus{outline:none;border-color:var(--violet)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip span{display:block;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:10px 14px;font-size:14.5px;font-weight:600;cursor:pointer;user-select:none;transition:border-color .15s,background .15s}
+.chip span em{display:block;font-style:normal;font-weight:500;font-size:12px;color:var(--dim)}
+.chip input:checked + span{border-color:var(--violet);background:#1C1535;color:#fff}
+.chip input:checked + span em{color:#C9BEFF}
+.chip input:focus-visible + span{outline:2px solid var(--violet);outline-offset:2px}
+.chip input:disabled + span{opacity:.38;cursor:not-allowed}
+.days .chip span{min-width:74px;text-align:center}
+.counter{font-size:13px;color:var(--dim);margin-top:8px}
+.err{display:none;color:#FCA5A5;font-size:13.5px;margin-top:8px}
+.field.invalid .err{display:block}
+.field.invalid input[type=text],.field.invalid input[type=email],.field.invalid input[type=tel]{border-color:#F87171}
+.submit{width:100%;font-size:17px;padding:17px}
+.submit[disabled]{opacity:.6;cursor:wait}
+.form-foot{text-align:center;color:var(--dim);font-size:13.5px;margin-top:14px}
+.thanks{display:none;text-align:center;padding:24px 8px}
+.thanks .ok{width:64px;height:64px;border-radius:50%;background:rgba(52,211,153,.14);color:var(--mint);display:grid;place-items:center;font-size:30px;margin:0 auto 20px}
+.thanks h3{font-size:28px;margin-bottom:12px}
+.thanks p{color:var(--muted);max-width:46ch;margin:0 auto}
+.form-card.done form{display:none}
+.form-card.done .thanks{display:block}
+@media (max-width:640px){.form-card{padding:26px 20px}.row2{grid-template-columns:1fr}}
+
+/* FAQ */
+.faq{margin-top:32px;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;padding:20px 40px 20px 0;font-weight:700;font-size:16.5px;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:16px;font-size:24px;color:var(--violet);transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{color:var(--muted);padding:0 0 22px;max-width:70ch}
+
+footer{border-top:1px solid var(--line);padding:40px 0;color:var(--dim);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
+footer a{color:var(--muted);text-decoration:none}
+footer a:hover{color:#fff}
+footer nav{display:flex;flex-wrap:wrap;gap:18px}
+</style>
+</head>
+<body>
+
+<div class="strip">
+  <span data-lang="pt"><b>Pré-inscrição aberta</b> | Janeiro de 2027 | Nova York e Texas | Turmas de até 30 pessoas</span>
+  <span data-lang="en"><b>Pre-registration open</b> | January 2027 | New York and Texas | Groups of up to 30 people</span>
+</div>
+
+<header id="top">
+  <div class="wrap nav">
+    <a class="logo" href="https://knowai.today/">knowai<span>.</span>today</a>
+    <div class="nav-right">
+      <div class="lang" role="group" aria-label="Idioma / Language">
+        <button type="button" data-set-lang="pt" aria-pressed="true">PT</button>
+        <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <a class="btn btn-primary" href="#pre-inscricao"><span data-lang="pt">Fazer pré-inscrição</span><span data-lang="en">Pre-register</span></a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="pills">
+        <span class="pill"><span data-lang="pt">Presencial</span><span data-lang="en">In person</span></span>
+        <span class="pill"><span data-lang="pt">Turma fechada por segmento</span><span data-lang="en">Closed groups by industry</span></span>
+        <span class="pill">Português | English</span>
+      </div>
+      <h1>
+        <span data-lang="pt">Um letramento de IA criado do zero para o seu grupo.</span>
+        <span data-lang="en">An AI literacy workshop built from scratch for your group.</span>
+      </h1>
+      <p class="lead">
+        <span data-lang="pt">Nada de conteúdo genérico. Formamos turmas fechadas com pessoas do mesmo segmento, entendemos suas dores e o seu nível com IA e desenhamos cada workshop no detalhe, para gerar resultado real no seu dia a dia. Com Bruno Mello e Anderson Alves, presencial em Nova York e no Texas.</span>
+        <span data-lang="en">No generic content. We build closed groups of people from the same industry, learn your pain points and your level with AI, and design every workshop in detail to deliver real results in your daily work. With Bruno Mello and Anderson Alves, in person in New York and Texas.</span>
+      </p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#pre-inscricao"><span data-lang="pt">Fazer minha pré-inscrição</span><span data-lang="en">Pre-register now</span></a>
+        <a class="btn btn-ghost" href="#incluso"><span data-lang="pt">Ver o que está incluso</span><span data-lang="en">See what's included</span></a>
+      </div>
+    </div>
+
+    <div class="hero-video">
+      <div class="vframe" id="vframe">
+        <video id="heroVideo" playsinline preload="metadata"></video>
+        <div class="vfallback" aria-hidden="true">
+          <img src="https://knowai.today/assets/bruno.jpg" alt="">
+          <img src="https://knowai.today/assets/anderson.jpg" alt="">
+        </div>
+        <button type="button" class="vplay" id="vplay">
+          <i aria-hidden="true"></i>
+          <span data-lang="pt">Assistir à apresentação</span><span data-lang="en">Watch the introduction</span>
+        </button>
+      </div>
+      <p class="vcaption">Bruno Mello &amp; Anderson Alves</p>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="facts">
+    <div class="fact"><small><span data-lang="pt">Datas</span><span data-lang="en">Dates</span></small><strong><span data-lang="pt">14 a 26 de janeiro</span><span data-lang="en">January 14 to 26</span></strong></div>
+    <div class="fact"><small><span data-lang="pt">Onde</span><span data-lang="en">Where</span></small><strong><span data-lang="pt">Nova York e Texas</span><span data-lang="en">New York and Texas</span></strong></div>
+    <div class="fact"><small><span data-lang="pt">Turmas</span><span data-lang="en">Groups</span></small><strong><span data-lang="pt">Até 30 pessoas</span><span data-lang="en">Up to 30 people</span></strong></div>
+    <div class="fact"><small><span data-lang="pt">Investimento</span><span data-lang="en">Investment</span></small><strong><span data-lang="pt">US$ 120, tudo incluso</span><span data-lang="en">US$ 120, all included</span></strong></div>
+  </div>
+</div>
+
+<!-- INCLUSO -->
+<section id="incluso">
+  <div class="wrap">
+    <span class="tag">// <span data-lang="pt">incluso</span><span data-lang="en">included</span></span>
+    <h2><span data-lang="pt">O que você recebe</span><span data-lang="en">What you get</span></h2>
+    <p class="lead">
+      <span data-lang="pt">Tudo o que está incluso no seu workshop, do survey prévio às gravações.</span>
+      <span data-lang="en">Everything included in your workshop, from the pre-workshop survey to the recordings.</span>
+    </p>
+
+    <ul class="deliverables">
+      <li><span data-lang="pt">Workshop presencial, mão na massa, desenhado para você</span><span data-lang="en">Hands-on, in-person workshop designed for you</span></li>
+      <li><span data-lang="pt">Survey prévio para entender seu segmento, suas dores e seu nível com IA</span><span data-lang="en">Pre-workshop survey to understand your industry, pain points and AI level</span></li>
+      <li><span data-lang="pt">Turma fechada com profissionais do seu segmento, até 30 pessoas</span><span data-lang="en">Closed group with professionals from your industry, up to 30 people</span></li>
+      <li><span data-lang="pt">Interação ao vivo com Bruno e Anderson, na sala</span><span data-lang="en">Live interaction with Bruno and Anderson, in the room</span></li>
+      <li><span data-lang="pt">12 meses de acesso às gravações</span><span data-lang="en">12 months of access to the recordings</span></li>
+      <li><span data-lang="pt">Certificado de participação</span><span data-lang="en">Certificate of participation</span></li>
+      <li><span data-lang="pt">Comunidade exclusiva no WhatsApp</span><span data-lang="en">Exclusive WhatsApp community</span></li>
+      <li><span data-lang="pt">Networking com profissionais do seu segmento</span><span data-lang="en">Networking with professionals from your industry</span></li>
+    </ul>
+
+    <div class="bonus">
+      <span class="badge"><span data-lang="pt">Bônus | 30 dias grátis</span><span data-lang="en">Bonus | 30 days free</span></span>
+      <div class="bonus-grid">
+        <div>
+          <h3><span data-lang="pt">AIfred, seu mentor de IA</span><span data-lang="en">AIfred, your AI mentor</span></h3>
+          <p><span data-lang="pt">Acesso ao nosso app com um mentor personalizado pelo workshop do seu grupo. Os gêmeos virtuais de Bruno e Anderson continuam com você depois do evento.</span><span data-lang="en">Access to our app with a mentor customized to your group's workshop. Bruno and Anderson's virtual twins keep working with you after the event.</span></p>
+        </div>
+        <ul>
+          <li><span data-lang="pt">Tira dúvidas e valida cada passo que você aplicar</span><span data-lang="en">Answers questions and checks every step you apply</span></li>
+          <li><span data-lang="pt">Base de conhecimento com tudo o que falamos na sua turma</span><span data-lang="en">Knowledge base with everything covered in your group</span></li>
+          <li><span data-lang="pt">Cases, exemplos e informações do seu segmento</span><span data-lang="en">Cases, examples and insights from your industry</span></li>
+          <li><span data-lang="pt">Acesso ao conteúdo gravado do workshop</span><span data-lang="en">Access to the workshop recordings</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="price">
+      <div>
+        <div class="price-val">US$ 120<small><span data-lang="pt">por workshop</span><span data-lang="en">per workshop</span></small></div>
+        <p><span data-lang="pt">Todas as entregas e o bônus incluídos. Vagas limitadas a 30 pessoas por turma.</span><span data-lang="en">All deliverables and the bonus included. Limited to 30 people per group.</span></p>
+      </div>
+      <a class="btn btn-primary" href="#pre-inscricao"><span data-lang="pt">Garantir minha vaga</span><span data-lang="en">Save my spot</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- AIFRED -->
+<section class="alfred-sec">
+  <div class="wrap alfred-grid">
+    <div>
+      <span class="tag">// <span data-lang="pt">bônus: AIfred</span><span data-lang="en">bonus: AIfred</span></span>
+      <h2><span data-lang="pt">O workshop continua depois que você sai da sala.</span><span data-lang="en">The workshop keeps going after you leave the room.</span></h2>
+      <p class="lead">
+        <span data-lang="pt">A maior dificuldade não é aprender, é aplicar na semana seguinte. Por isso cada turma ganha um AIfred próprio, treinado com o conteúdo, os exemplos e as conversas daquele workshop.</span>
+        <span data-lang="en">The hardest part isn't learning, it's applying it the following week. That's why every group gets its own AIfred, trained on the content, examples and conversations of that workshop.</span>
+      </p>
+      <ul class="alfred-points">
+        <li>
+          <h3><span data-lang="pt">Os gêmeos virtuais de Bruno e Anderson</span><span data-lang="en">Bruno and Anderson's virtual twins</span></h3>
+          <p><span data-lang="pt">Bruno no lado do negócio e do marketing, Anderson no lado técnico. Eles respondem como responderiam na sala.</span><span data-lang="en">Bruno on business and marketing, Anderson on the technical side. They answer the way they would in the room.</span></p>
+        </li>
+        <li>
+          <h3><span data-lang="pt">Criado especialmente para o seu grupo</span><span data-lang="en">Built specifically for your group</span></h3>
+          <p><span data-lang="pt">A base de conhecimento reúne tudo o que falamos no seu letramento, com os cases e as dores do seu segmento.</span><span data-lang="en">The knowledge base holds everything we covered in your session, with the cases and pain points of your industry.</span></p>
+        </li>
+        <li>
+          <h3><span data-lang="pt">Gravações e conteúdo em um só lugar</span><span data-lang="en">Recordings and content in one place</span></h3>
+          <p><span data-lang="pt">Reveja qualquer trecho do workshop e pergunte sobre ele na hora.</span><span data-lang="en">Rewatch any part of the workshop and ask about it right away.</span></p>
+        </li>
+      </ul>
+    </div>
+
+    <div class="chat" aria-label="Exemplo de conversa com o AIfred">
+      <div class="chat-top">
+        <div class="chat-av">Ai</div>
+        <div><strong>AIfred</strong><small><span data-lang="pt">Mentor da sua turma | online</span><span data-lang="en">Your group's mentor | online</span></small></div>
+      </div>
+      <div class="msg msg-u">
+        <span data-lang="pt">Montei o agente de atendimento que fizemos no workshop, mas ele está respondendo formal demais. O que eu ajusto?</span>
+        <span data-lang="en">I built the customer service agent from the workshop, but it sounds way too formal. What should I change?</span>
+      </div>
+      <div class="msg msg-a">
+        <span class="who"><span data-lang="pt">Gêmeo virtual do Anderson</span><span data-lang="en">Anderson's virtual twin</span></span>
+        <span data-lang="pt">Lembra do exemplo da turma no bloco de agentes? Ajuste a parte de tom nas instruções e cole duas respostas reais suas como referência. Me mande o resultado que eu valido com você.</span>
+        <span data-lang="en">Remember the group example in the agents block? Adjust the tone section in the instructions and paste two of your real replies as reference. Send me the result and I'll review it with you.</span>
+      </div>
+      <p class="chat-src"><span data-lang="pt">Fonte: workshop da sua turma, bloco de agentes</span><span data-lang="en">Source: your group's workshop, agents block</span></p>
+      <div class="msg msg-u">
+        <span data-lang="pt">Feito! E agora, como uso isso no meu Instagram?</span>
+        <span data-lang="en">Done! Now how do I use this on my Instagram?</span>
+      </div>
+      <div class="msg msg-a">
+        <span class="who"><span data-lang="pt">Gêmeo virtual do Bruno</span><span data-lang="en">Bruno's virtual twin</span></span>
+        <span data-lang="pt">Use a linha editorial que você montou com a gente. Vou te sugerir três pautas para esta semana com base nas dúvidas que seus clientes mais mandam.</span>
+        <span data-lang="en">Use the editorial line you built with us. I'll suggest three post ideas for this week based on the questions your clients ask most.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIFERENTE -->
+<section>
+  <div class="wrap">
+    <span class="tag">// <span data-lang="pt">por que é diferente</span><span data-lang="en">why it's different</span></span>
+    <h2><span data-lang="pt">Não é um letramento de IA convencional.</span><span data-lang="en">This is not a conventional AI course.</span></h2>
+    <p class="lead">
+      <span data-lang="pt">Trabalhamos no ponto central de entendimento de cada grupo. Antes de montar o conteúdo, entendemos quem está na sala, o que trava o dia a dia e o que precisa sair funcionando.</span>
+      <span data-lang="en">We work on the core understanding of each group. Before building the content, we learn who is in the room, what slows down their day and what needs to work by the end.</span>
+    </p>
+    <div class="compare" role="table">
+      <div class="compare-row compare-head" role="row">
+        <div role="columnheader"><span data-lang="pt">Letramento convencional</span><span data-lang="en">Conventional course</span></div>
+        <div role="columnheader"><span data-lang="pt">Este letramento</span><span data-lang="en">This workshop</span></div>
+      </div>
+      <div class="compare-row" role="row">
+        <div role="cell"><span data-lang="pt">Mesmo conteúdo para qualquer público</span><span data-lang="en">Same content for any audience</span></div>
+        <div role="cell"><span data-lang="pt">Workshop criado no detalhe para o seu grupo e o seu segmento</span><span data-lang="en">Workshop designed in detail for your group and industry</span></div>
+      </div>
+      <div class="compare-row" role="row">
+        <div role="cell"><span data-lang="pt">Turma misturada, com níveis muito diferentes</span><span data-lang="en">Mixed audience with very different levels</span></div>
+        <div role="cell"><span data-lang="pt">Turma fechada, do mesmo segmento, com o nível medido no survey</span><span data-lang="en">Closed group from the same industry, level measured in the survey</span></div>
+      </div>
+      <div class="compare-row" role="row">
+        <div role="cell"><span data-lang="pt">Exemplos genéricos</span><span data-lang="en">Generic examples</span></div>
+        <div role="cell"><span data-lang="pt">Cases, dores e tarefas reais do seu dia a dia</span><span data-lang="en">Real cases, pain points and tasks from your daily work</span></div>
+      </div>
+      <div class="compare-row" role="row">
+        <div role="cell"><span data-lang="pt">Termina quando a aula acaba</span><span data-lang="en">Ends when the class ends</span></div>
+        <div role="cell"><span data-lang="pt">30 dias com o AIfred validando seus próximos passos</span><span data-lang="en">30 days with AIfred reviewing your next steps</span></div>
+      </div>
+      <div class="compare-row" role="row">
+        <div role="cell"><span data-lang="pt">Auditórios lotados</span><span data-lang="en">Crowded auditoriums</span></div>
+        <div role="cell"><span data-lang="pt">No máximo 30 pessoas por turma</span><span data-lang="en">No more than 30 people per group</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section>
+  <div class="wrap">
+    <span class="tag">// <span data-lang="pt">como funciona</span><span data-lang="en">how it works</span></span>
+    <h2><span data-lang="pt">Da pré-inscrição ao resultado</span><span data-lang="en">From pre-registration to results</span></h2>
+    <ol class="steps">
+      <li>
+        <h3><span data-lang="pt">Pré-inscrição</span><span data-lang="en">Pre-register</span></h3>
+        <p><span data-lang="pt">Você escolhe os melhores dias, o período e o seu grupo. Leva menos de 2 minutos.</span><span data-lang="en">Pick your best days, time of day and group. It takes less than 2 minutes.</span></p>
+      </li>
+      <li>
+        <h3><span data-lang="pt">Formamos a turma</span><span data-lang="en">We form the group</span></h3>
+        <p><span data-lang="pt">Pessoas do mesmo segmento e do mesmo idioma, até 30 por turma.</span><span data-lang="en">People from the same industry and language, up to 30 per group.</span></p>
+      </li>
+      <li>
+        <h3><span data-lang="pt">Survey</span><span data-lang="en">Survey</span></h3>
+        <p><span data-lang="pt">Entendemos sua rotina, suas dores e o seu grau de familiaridade com IA.</span><span data-lang="en">We learn your routine, your pain points and how familiar you are with AI.</span></p>
+      </li>
+      <li>
+        <h3><span data-lang="pt">Workshop sob medida</span><span data-lang="en">Tailored workshop</span></h3>
+        <p><span data-lang="pt">Um dia presencial, perto de você, construindo o que você vai usar na semana seguinte.</span><span data-lang="en">One in-person day near you, building what you'll use the following week.</span></p>
+      </li>
+      <li>
+        <h3><span data-lang="pt">30 dias com o AIfred</span><span data-lang="en">30 days with AIfred</span></h3>
+        <p><span data-lang="pt">Os gêmeos virtuais de Bruno e Anderson acompanham a sua aplicação.</span><span data-lang="en">Bruno and Anderson's virtual twins guide you as you apply it.</span></p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- TEMAS -->
+<section>
+  <div class="wrap">
+    <span class="tag">// <span data-lang="pt">conteúdo</span><span data-lang="en">content</span></span>
+    <h2><span data-lang="pt">A base que adaptamos ao seu grupo</span><span data-lang="en">The foundation we adapt to your group</span></h2>
+    <p class="lead">
+      <span data-lang="pt">É a mesma metodologia que já levamos a mais de 32 diretorias e lideranças de empresas de médio e grande porte. O peso de cada tema muda conforme o que o seu grupo precisa.</span>
+      <span data-lang="en">It's the same methodology we've taken to more than 32 boards and leadership teams at mid-size and large companies. The weight of each topic changes with what your group needs.</span>
+    </p>
+    <div class="topics">
+      <span><span data-lang="pt">Usar IA com método</span><span data-lang="en">Using AI with a method</span></span>
+      <span><span data-lang="pt">Automatizar tarefas do dia a dia</span><span data-lang="en">Automating daily tasks</span></span>
+      <span><span data-lang="pt">Criar seus próprios agentes</span><span data-lang="en">Building your own agents</span></span>
+      <span><span data-lang="pt">Criar skills</span><span data-lang="en">Creating skills</span></span>
+      <span><span data-lang="pt">Marketing com IA</span><span data-lang="en">AI-powered marketing</span></span>
+      <span><span data-lang="pt">Marca pessoal e GEO</span><span data-lang="en">Personal brand and GEO</span></span>
+      <span><span data-lang="pt">IA com segurança</span><span data-lang="en">Using AI safely</span></span>
+    </div>
+    <p class="note"><span data-lang="pt">A agenda final de cada turma é montada depois do survey. Não é preciso saber programar.</span><span data-lang="en">Each group's final agenda is built after the survey. No coding skills required.</span></p>
+  </div>
+</section>
+
+<!-- QUEM -->
+<section>
+  <div class="wrap">
+    <span class="tag">// <span data-lang="pt">quem vai te ensinar</span><span data-lang="en">your instructors</span></span>
+    <h2><span data-lang="pt">Negócio e código na mesma sala.</span><span data-lang="en">Business and code in the same room.</span></h2>
+    <div class="team">
+      <article class="person">
+        <img src="https://knowai.today/assets/bruno.jpg" alt="Bruno Mello" loading="lazy">
+        <div>
+          <small><span data-lang="pt">O lado do negócio com IA</span><span data-lang="en">The business side of AI</span></small>
+          <h3>Bruno Mello</h3>
+          <p data-lang="pt">12 anos em multinacionais farmacêuticas como Takeda e Sanofi, liderando equipes de vendas. Empreendedor desde 2012, fundou a Manycontent em 2018, com operação no Brasil, Portugal, Coreia do Sul e Hong Kong. Criador do conceito RaaS (Result as a Service). Docente no IPAM e no IADE, em Portugal, e mentor de startups na Unicorn Factory Lisboa. Certificação executiva em IA e Machine Learning pela Stanford, especializações pela UC Berkeley e Wharton.</p>
+          <p data-lang="en">12 years at pharmaceutical multinationals such as Takeda and Sanofi, leading sales teams. An entrepreneur since 2012, he founded Manycontent in 2018, operating in Brazil, Portugal, South Korea and Hong Kong. Creator of the RaaS (Result as a Service) concept. Lecturer at IPAM and IADE in Portugal and startup mentor at Unicorn Factory Lisboa. Executive certificate in AI and Machine Learning from Stanford, with programs at UC Berkeley and Wharton.</p>
+        </div>
+      </article>
+      <article class="person">
+        <img src="https://knowai.today/assets/anderson.jpg" alt="Anderson Alves" loading="lazy">
+        <div>
+          <small><span data-lang="pt">O lado do código com IA</span><span data-lang="en">The code side of AI</span></small>
+          <h3>Anderson Alves</h3>
+          <p data-lang="pt">Mais de 20 anos desenvolvendo software. Em 2007 já tinha IA em produção: o ParaCred, sistema que analisava risco de crédito bancário com lógica paraconsistente. Publicações científicas sobre IA aplicada a crédito (2007 e 2010). Em 2018, construiu com Bruno a Manycontent, um dos primeiros sistemas de criação de conteúdo por IA do mundo. Responsável pela engenharia das quatro empresas da dupla.</p>
+          <p data-lang="en">Over 20 years building software. By 2007 he already had AI in production: ParaCred, a system that assessed bank credit risk using paraconsistent logic. Scientific publications on AI applied to credit (2007 and 2010). In 2018 he built Manycontent with Bruno, one of the first AI content creation systems in the world. He leads engineering across the duo's four companies.</p>
+        </div>
+      </article>
+    </div>
+    <div class="stats">
+      <div><strong>2007</strong><span><span data-lang="pt">construindo inteligência artificial</span><span data-lang="en">building artificial intelligence since</span></span></div>
+      <div><strong>32+</strong><span><span data-lang="pt">letramentos para gestores e C-levels</span><span data-lang="en">workshops for managers and C-levels</span></span></div>
+      <div><strong>14</strong><span><span data-lang="pt">países com clientes</span><span data-lang="en">countries with clients</span></span></div>
+      <div><strong>4</strong><span><span data-lang="pt">empresas de tecnologia fundadas juntos</span><span data-lang="en">tech companies founded together</span></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ONDE -->
+<section>
+  <div class="wrap">
+    <span class="tag">// <span data-lang="pt">onde e em que idioma</span><span data-lang="en">where and in which language</span></span>
+    <h2><span data-lang="pt">Perto de você, no seu idioma.</span><span data-lang="en">Near you, in your language.</span></h2>
+    <div class="where">
+      <div>
+        <h3><span data-lang="pt">Nova York e Texas</span><span data-lang="en">New York and Texas</span></h3>
+        <p><span data-lang="pt">O local de cada turma será confirmado de acordo com onde estão os participantes, sempre presencial e perto de você.</span><span data-lang="en">Each group's venue will be confirmed based on where participants are, always in person and close to you.</span></p>
+      </div>
+      <div>
+        <h3><span data-lang="pt">Português ou inglês</span><span data-lang="en">Portuguese or English</span></h3>
+        <p><span data-lang="pt">Turmas em português para brasileiros e turmas em inglês para participantes de outras nacionalidades.</span><span data-lang="en">Portuguese-speaking groups for Brazilians and English-speaking groups for participants of other nationalities.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORM -->
+<section class="form-sec" id="pre-inscricao">
+  <div class="wrap form-wrap">
+    <span class="tag">// <span data-lang="pt">pré-inscrição</span><span data-lang="en">pre-registration</span></span>
+    <h2><span data-lang="pt">Reserve seu lugar na próxima turma</span><span data-lang="en">Save your spot in the next group</span></h2>
+    <p class="lead"><span data-lang="pt">Preencha em menos de 2 minutos. Nosso time entra em contato para explicar como funciona.</span><span data-lang="en">It takes less than 2 minutes. Our team will reach out to explain how it works.</span></p>
+
+    <div class="form-card" id="formCard">
+      <form id="preForm" novalidate>
+        <input type="hidden" name="idioma_pagina" id="f-lang" value="pt">
+
+        <div class="field" data-req="nome">
+          <label for="f-nome"><span data-lang="pt">Nome</span><span data-lang="en">Name</span></label>
+          <input type="text" id="f-nome" name="nome" autocomplete="name" data-ph-pt="Seu nome completo" data-ph-en="Your full name">
+          <p class="err"><span data-lang="pt">Informe seu nome completo.</span><span data-lang="en">Please enter your full name.</span></p>
+        </div>
+
+        <div class="row2">
+          <div class="field" data-req="email">
+            <label for="f-email">E-mail</label>
+            <input type="email" id="f-email" name="email" autocomplete="email" data-ph-pt="voce@email.com" data-ph-en="you@email.com">
+            <p class="err"><span data-lang="pt">Informe um e-mail válido.</span><span data-lang="en">Please enter a valid email.</span></p>
+          </div>
+          <div class="field" data-req="whatsapp">
+            <label for="f-whats">WhatsApp</label>
+            <input type="tel" id="f-whats" name="whatsapp" autocomplete="tel" data-ph-pt="+55 11 99999-9999" data-ph-en="+1 (650) 253-0000">
+            <p class="err"><span data-lang="pt">Informe o número com + e o código do país, ex.: +55 11 99999-9999.</span><span data-lang="en">Please enter the number with + and country code, e.g. +1 650 253 0000.</span></p>
+          </div>
+        </div>
+
+        <fieldset class="field" data-req="dias">
+          <legend><span data-lang="pt">Selecione até 3 melhores dias para você participar</span><span data-lang="en">Select up to 3 best days for you to attend</span><small><span data-lang="pt">janeiro de 2027</span><span data-lang="en">January 2027</span></small></legend>
+          <div class="chips days" id="daysBox"></div>
+          <p class="counter" id="daysCounter"></p>
+          <p class="err"><span data-lang="pt">Escolha pelo menos 1 dia.</span><span data-lang="en">Choose at least 1 day.</span></p>
+        </fieldset>
+
+        <fieldset class="field" data-req="periodo">
+          <legend><span data-lang="pt">Melhor período</span><span data-lang="en">Best time of day</span></legend>
+          <div class="chips">
+            <label class="chip"><input type="radio" name="periodo" value="manha"><span><span data-lang="pt">Manhã</span><span data-lang="en">Morning</span></span></label>
+            <label class="chip"><input type="radio" name="periodo" value="tarde"><span><span data-lang="pt">Tarde</span><span data-lang="en">Afternoon</span></span></label>
+            <label class="chip"><input type="radio" name="periodo" value="qualquer"><span><span data-lang="pt">Qualquer um</span><span data-lang="en">Either works</span></span></label>
+          </div>
+          <p class="err"><span data-lang="pt">Escolha um período.</span><span data-lang="en">Choose a time of day.</span></p>
+        </fieldset>
+
+        <fieldset class="field" data-req="grupo">
+          <legend><span data-lang="pt">Qual é o seu grupo?</span><span data-lang="en">Which is your group?</span></legend>
+          <div class="chips">
+            <label class="chip"><input type="radio" name="grupo" value="grupo_a"><span><span data-lang="pt">Grupo A</span><span data-lang="en">Group A</span></span></label>
+            <label class="chip"><input type="radio" name="grupo" value="grupo_b"><span><span data-lang="pt">Grupo B</span><span data-lang="en">Group B</span></span></label>
+            <label class="chip"><input type="radio" name="grupo" value="grupo_c"><span><span data-lang="pt">Grupo C</span><span data-lang="en">Group C</span></span></label>
+          </div>
+          <p class="err"><span data-lang="pt">Escolha o seu grupo.</span><span data-lang="en">Choose your group.</span></p>
+        </fieldset>
+
+        <button type="submit" class="btn btn-primary submit" id="submitBtn">
+          <span data-lang="pt">Enviar pré-inscrição</span><span data-lang="en">Send pre-registration</span>
+        </button>
+        <p class="form-foot"><span data-lang="pt">Usamos seus dados apenas para falar sobre o letramento.</span><span data-lang="en">We only use your data to contact you about the workshop.</span></p>
+      </form>
+
+      <div class="thanks" role="status" aria-live="polite">
+        <div class="ok">✓</div>
+        <h3><span data-lang="pt">Pré-inscrição enviada!</span><span data-lang="en">Pre-registration sent!</span></h3>
+        <p><span data-lang="pt">Obrigado pelo interesse. Nosso time vai entrar em contato pelo WhatsApp ou e-mail para explicar como vai funcionar e confirmar a sua turma.</span><span data-lang="en">Thank you for your interest. Our team will reach out on WhatsApp or email to explain how it works and confirm your group.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="wrap">
+    <span class="tag">// <span data-lang="pt">perguntas frequentes</span><span data-lang="en">faq</span></span>
+    <h2><span data-lang="pt">Dúvidas</span><span data-lang="en">Questions</span></h2>
+    <div class="faq">
+      <details>
+        <summary><span data-lang="pt">A pré-inscrição já garante minha vaga?</span><span data-lang="en">Does pre-registering guarantee my spot?</span></summary>
+        <p><span data-lang="pt">Ela coloca você na formação da turma. Como as vagas são limitadas a 30 pessoas por grupo, nosso time entra em contato para confirmar sua participação e explicar os próximos passos.</span><span data-lang="en">It puts you in line for your group. Since spots are limited to 30 people per group, our team will contact you to confirm your participation and explain next steps.</span></p>
+      </details>
+      <details>
+        <summary><span data-lang="pt">Por que ainda não tem agenda fechada?</span><span data-lang="en">Why isn't there a fixed agenda yet?</span></summary>
+        <p><span data-lang="pt">Porque cada workshop é desenhado para o seu grupo. A agenda é montada depois do survey, com base no segmento, nas dores e no nível de quem vai estar na sala.</span><span data-lang="en">Because every workshop is designed for your group. The agenda is built after the survey, based on the industry, pain points and level of the people in the room.</span></p>
+      </details>
+      <details>
+        <summary><span data-lang="pt">O que é o AIfred?</span><span data-lang="en">What is AIfred?</span></summary>
+        <p><span data-lang="pt">É o mentor de IA do nosso app, personalizado com o conteúdo do workshop da sua turma. Por 30 dias, sem custo adicional, você conversa com os gêmeos virtuais de Bruno e Anderson, tira dúvidas, valida seus passos e acessa as gravações.</span><span data-lang="en">It's the AI mentor in our app, customized with your group's workshop content. For 30 days, at no extra cost, you talk with Bruno and Anderson's virtual twins, ask questions, check your steps and access the recordings.</span></p>
+      </details>
+      <details>
+        <summary><span data-lang="pt">Preciso saber programar?</span><span data-lang="en">Do I need to know how to code?</span></summary>
+        <p><span data-lang="pt">Não. O conteúdo é ajustado ao nível do grupo, e tudo é feito sem código.</span><span data-lang="en">No. The content is adjusted to the group's level, and everything is done without code.</span></p>
+      </details>
+      <details>
+        <summary><span data-lang="pt">O que preciso levar?</span><span data-lang="en">What should I bring?</span></summary>
+        <p><span data-lang="pt">Um notebook. As ferramentas e acessos necessários serão informados antes do workshop, de acordo com o que for desenhado para a sua turma.</span><span data-lang="en">A laptop. The tools and accounts you'll need will be shared before the workshop, based on what's designed for your group.</span></p>
+      </details>
+      <details>
+        <summary><span data-lang="pt">Onde exatamente vai acontecer?</span><span data-lang="en">Where exactly will it take place?</span></summary>
+        <p><span data-lang="pt">Em Nova York e no Texas. O endereço de cada turma é confirmado conforme a localização dos participantes.</span><span data-lang="en">In New York and Texas. Each group's address is confirmed based on where participants are located.</span></p>
+      </details>
+      <details>
+        <summary><span data-lang="pt">Não falo português. Posso participar?</span><span data-lang="en">I don't speak Portuguese. Can I join?</span></summary>
+        <p><span data-lang="pt">Sim. Temos turmas em inglês para participantes de outras nacionalidades.</span><span data-lang="en">Yes. We run English-speaking groups for participants of other nationalities.</span></p>
+      </details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>Bruno Mello &amp; Anderson Alves | Manycontent, Pyxis, Let's GEO, Brasil Prime Tech</div>
+    <nav>
+      <a href="https://wa.me/5513996402074" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="mailto:bruno@manycontent.com">bruno@manycontent.com</a>
+      <a href="https://www.linkedin.com/in/brunomartinsdemello/" target="_blank" rel="noopener">LinkedIn Bruno</a>
+      <a href="https://www.linkedin.com/in/andersonalvesalmeida/" target="_blank" rel="noopener">LinkedIn Anderson</a>
+      <a href="https://knowai.today/">knowai.today</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+/* ============ CONFIGURAÇÃO ============
+   Endereço que recebe os envios (JSON via POST).
+   O CORS do endpoint só libera https://knowai.today.
+   Se estiver vazio, a página mostra a mensagem
+   de obrigado e registra os dados no console. */
+const FORM_ENDPOINT = "https://us-central1-manycontent-v2-prod.cloudfunctions.net/literacy-requests/register";
+
+/* Vídeo vertical da primeira dobra (9:16, .mp4).
+   Coloque o arquivo em /letramento/eua/assets/ e ajuste os caminhos.
+   Se tiver só uma versão, use o mesmo arquivo nas duas.
+   A capa (poster) é opcional: sem ela, aparecem as fotos de Bruno e Anderson. */
+const VIDEO = {
+  pt: { src: "", poster: "" },   // ex.: "assets/apresentacao-pt.mp4", "assets/capa-pt.jpg"
+  en: { src: "", poster: "" }    // ex.: "assets/apresentacao-en.mp4", "assets/capa-en.jpg"
+};
+
+/* Datas disponíveis */
+const YEAR = 2027, MONTH = 0, FIRST_DAY = 14, LAST_DAY = 26, MAX_DAYS = 3;
+
+(function(){
+  const html = document.documentElement;
+  const params = new URLSearchParams(location.search);
+
+  /* ---------- Idioma ---------- */
+  function setLang(l){
+    html.dataset.l = l;
+    html.lang = l === "en" ? "en" : "pt-BR";
+    document.querySelectorAll("[data-set-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.setLang === l));
+    document.querySelectorAll("[data-ph-pt]").forEach(i => i.placeholder = i.dataset["ph" + (l === "en" ? "En" : "Pt")]);
+    document.getElementById("f-lang").value = l;
+    document.title = l === "en"
+      ? "Personalized AI Literacy Workshop in the US | Bruno Mello and Anderson Alves"
+      : "Letramento de IA Personalizado nos EUA | Bruno Mello e Anderson Alves";
+    renderDays();
+    updateCounter();
+    loadVideo(l);
+  }
+
+  /* ---------- Vídeo ---------- */
+  const vframe = document.getElementById("vframe");
+  const video = document.getElementById("heroVideo");
+  const vplay = document.getElementById("vplay");
+  function loadVideo(l){
+    const v = VIDEO[l] && VIDEO[l].src ? VIDEO[l] : (VIDEO.pt.src ? VIDEO.pt : VIDEO.en);
+    vframe.classList.remove("playing");
+    video.removeAttribute("controls");
+    if (!v.src){ video.removeAttribute("src"); vplay.style.display = "none"; return; }
+    vplay.style.display = "";
+    if (video.getAttribute("src") !== v.src){ video.src = v.src; video.load(); }
+    if (v.poster){ video.poster = v.poster; vframe.classList.add("has-poster"); }
+    else { video.removeAttribute("poster"); vframe.classList.remove("has-poster"); }
+  }
+  vplay.addEventListener("click", () => {
+    vframe.classList.add("playing");
+    video.controls = true;
+    video.play();
+  });
+  video.addEventListener("ended", () => { vframe.classList.remove("playing"); video.controls = false; video.currentTime = 0; });
+  document.querySelectorAll("[data-set-lang]").forEach(b => b.addEventListener("click", () => {
+    setLang(b.dataset.setLang);
+    const u = new URL(location); u.searchParams.set("lang", b.dataset.setLang); history.replaceState(null, "", u);
+  }));
+
+  /* ---------- Header ---------- */
+  const header = document.querySelector("header");
+  addEventListener("scroll", () => header.classList.toggle("scrolled", scrollY > 10), {passive:true});
+
+  /* ---------- Dias ---------- */
+  const daysBox = document.getElementById("daysBox");
+  const counter = document.getElementById("daysCounter");
+  let selected = new Set();
+
+  function renderDays(){
+    const l = html.dataset.l === "en" ? "en-US" : "pt-BR";
+    daysBox.innerHTML = "";
+    for (let d = FIRST_DAY; d <= LAST_DAY; d++){
+      const date = new Date(YEAR, MONTH, d);
+      const iso = `${YEAR}-${String(MONTH+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+      const wd = date.toLocaleDateString(l, {weekday:"short"}).replace(".", "");
+      const label = l === "en" ? `Jan ${d}` : `${d}/01`;
+      const lab = document.createElement("label");
+      lab.className = "chip";
+      lab.innerHTML = `<input type="checkbox" name="dias" value="${iso}"${selected.has(iso) ? " checked" : ""}><span>${label}<em>${wd}</em></span>`;
+      daysBox.appendChild(lab);
+    }
+    daysBox.querySelectorAll("input").forEach(inp => inp.addEventListener("change", () => {
+      inp.checked ? selected.add(inp.value) : selected.delete(inp.value);
+      updateCounter();
+      clearErr("dias");
+    }));
+    lockDays();
+  }
+  function lockDays(){
+    const full = selected.size >= MAX_DAYS;
+    daysBox.querySelectorAll("input").forEach(i => i.disabled = full && !i.checked);
+  }
+  function updateCounter(){
+    lockDays();
+    const en = html.dataset.l === "en";
+    const n = selected.size;
+    counter.textContent = en
+      ? `${n} of ${MAX_DAYS} selected`
+      : `${n} de ${MAX_DAYS} selecionados`;
+  }
+
+  /* ---------- Validação ---------- */
+  const form = document.getElementById("preForm");
+  const field = k => form.querySelector(`[data-req="${k}"]`);
+  function clearErr(k){ field(k).classList.remove("invalid"); }
+
+  /* Cada função devolve o valor normalizado, ou null se for inválido */
+  const CJK_NAME = /^[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}ー・·]+$/u;
+  const CJK_CHAR = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/gu;
+  function normName(s){
+    /* Letras de qualquer escrita (com marcas combinantes e ZWNJ/ZWJ), espaço, apóstrofo, ponto, ponto médio e hífen */
+    const v = s.normalize("NFC").replace(/\s+/g, " ").trim();
+    if (!v || v.length > 120 || !/^[\p{L}\p{M}‌‍ '’ʼ.·・\-‐]+$/u.test(v)) return null;
+    const parts = v.split(" ");
+    if (parts.length >= 2 && parts.every(p => /\p{L}/u.test(p))) return v;
+    /* Nomes chineses, japoneses e coreanos costumam vir sem espaço: vale se o nome inteiro for CJK */
+    if (parts.length === 1 && CJK_NAME.test(v) && (v.match(CJK_CHAR) || []).length >= 2) return v;
+    return null;
+  }
+
+  const utf8Len = s => new TextEncoder().encode(s).length;
+  const LABEL = /^[\p{L}\p{M}\p{N}](?:[\p{L}\p{M}\p{N}-]*[\p{L}\p{M}\p{N}])?$/u;
+  function normEmail(s){
+    const v = s.trim();
+    const at = v.split("@");
+    if (at.length !== 2) return null;
+    const [local, domain] = at;
+    if (!local || utf8Len(local) > 64 || !/^[\p{L}\p{M}\p{N}.!#$%&'*+/=?^_`{|}~-]+$/u.test(local)) return null;
+    if (local.startsWith(".") || local.endsWith(".") || local.includes("..")) return null;
+    const labels = domain.split(".");
+    if (labels.length < 2 || !labels.every(l => LABEL.test(l))) return null;
+    /* Limites de DNS valem para a forma ASCII (punycode) do domínio */
+    let ascii;
+    try { ascii = new URL("http://" + domain).hostname; } catch (e) { return null; }
+    const asciiLabels = ascii.split(".");
+    const tld = asciiLabels[asciiLabels.length - 1];
+    if (ascii.length > 253 || asciiLabels.some(l => l.length > 63) || tld.length < 2 || /^\d+$/.test(tld)) return null;
+    if (utf8Len(local) + 1 + ascii.length > 254) return null;
+    return local + "@" + domain.toLowerCase();
+  }
+
+  const phoneLib = () => !!window.libphonenumber && typeof window.libphonenumber.parsePhoneNumberFromString === "function";
+  function normPhone(s){
+    /* Exige + e código do país; devolve E.164 */
+    const v = s.trim();
+    if (!v.startsWith("+") || !phoneLib()) return null;
+    const p = window.libphonenumber.parsePhoneNumberFromString(v);
+    return p && p.isValid() ? p.number : null;
+  }
+
+  const norm = {nome: normName, email: normEmail, whatsapp: normPhone};
+  Object.entries(norm).forEach(([k, fn]) => {
+    const inp = field(k).querySelector("input");
+    inp.addEventListener("input", () => clearErr(k));
+    inp.addEventListener("blur", () => {
+      if (!inp.value.trim() || (k === "whatsapp" && !phoneLib())) return;
+      field(k).classList.toggle("invalid", !fn(inp.value));
+    });
+  });
+  form.querySelectorAll('input[name="periodo"]').forEach(i => i.addEventListener("change", () => clearErr("periodo")));
+  form.querySelectorAll('input[name="grupo"]').forEach(i => i.addEventListener("change", () => clearErr("grupo")));
+
+  function validate(){
+    const v = {
+      nome: !!normName(form.nome.value),
+      email: !!normEmail(form.email.value),
+      whatsapp: !!normPhone(form.whatsapp.value),
+      dias: selected.size >= 1 && selected.size <= MAX_DAYS,
+      periodo: !!form.querySelector('input[name="periodo"]:checked'),
+      grupo: !!form.querySelector('input[name="grupo"]:checked')
+    };
+    let first = null;
+    Object.entries(v).forEach(([k, ok]) => {
+      field(k).classList.toggle("invalid", !ok);
+      if (!ok && !first) first = field(k);
+    });
+    if (first){
+      first.scrollIntoView({behavior:"smooth", block:"center"});
+      const inp = first.querySelector("input"); if (inp) inp.focus({preventScroll:true});
+    }
+    return !first;
+  }
+
+  /* ---------- Envio ---------- */
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    /* Sem a biblioteca de telefone (bloqueada ou ainda carregando), nunca envia */
+    if (!phoneLib()){
+      alert(html.dataset.l === "en"
+        ? "We couldn't validate the phone number right now. Please reload the page and try again."
+        : "Não foi possível validar o telefone agora. Recarregue a página e tente novamente.");
+      return;
+    }
+    if (!validate()) return;
+    const btn = document.getElementById("submitBtn");
+    btn.disabled = true;
+
+    const data = {
+      nome: normName(form.nome.value),
+      email: normEmail(form.email.value),
+      whatsapp: normPhone(form.whatsapp.value),
+      dias: [...selected].sort(),
+      periodo: form.querySelector('input[name="periodo"]:checked').value,
+      grupo: form.querySelector('input[name="grupo"]:checked').value,
+      idioma_pagina: html.dataset.l,
+      origem: location.href,
+      utm_source: params.get("utm_source") || "",
+      utm_medium: params.get("utm_medium") || "",
+      utm_campaign: params.get("utm_campaign") || "",
+      enviado_em: new Date().toISOString()
+    };
+
+    try{
+      if (FORM_ENDPOINT){
+        const res = await fetch(FORM_ENDPOINT, {
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body: JSON.stringify(data)
+        });
+        const { success } = await res.json().catch(() => ({}));
+        if (!success) throw new Error("Falha no envio");
+      } else {
+        console.log("[pré-inscrição] FORM_ENDPOINT vazio. Dados:", data);
+      }
+      document.getElementById("formCard").classList.add("done");
+      document.getElementById("formCard").scrollIntoView({behavior:"smooth", block:"center"});
+    } catch(err){
+      btn.disabled = false;
+      alert(html.dataset.l === "en"
+        ? "We couldn't send your pre-registration. Check your connection and try again."
+        : "Não foi possível enviar sua pré-inscrição. Verifique sua conexão e tente novamente.");
+    }
+  });
+
+  /* ---------- Início ---------- */
+  const initial = params.get("lang") === "en" ? "en" : "pt";
+  setLang(initial);
+})();
+</script>
+</body>
+</html>
