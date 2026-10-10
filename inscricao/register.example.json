@@ -1,0 +1,14 @@
+{
+  "nome": "Maria da Silva",
+  "email": "maria@exemplo.com",
+  "whatsapp": "+5511999999999",
+  "dias": ["2027-01-14", "2027-01-18", "2027-01-21"],
+  "periodo": "manha",
+  "grupo": "grupo_a",
+  "idioma_pagina": "pt",
+  "origem": "https://knowai.today/inscricao/?utm_source=instagram&utm_medium=bio&utm_campaign=letramento-eua",
+  "utm_source": "instagram",
+  "utm_medium": "bio",
+  "utm_campaign": "letramento-eua",
+  "enviado_em": "2027-01-05T14:32:10.123Z"
+}
