@@ -819,11 +819,13 @@ const YEAR = 2027, MONTH = 0, FIRST_DAY = 14, LAST_DAY = 26, MAX_DAYS = 3;
     return local + "@" + domain.toLowerCase();
   }
 
+  /* Só dígitos, espaços, ( ) - . e um + inicial (libphonenumber aceitaria letras como "1-800-FLOWERS") */
+  const PHONE_BAD = /[^\d\s()+.-]|(?!^)\+/;
   const phoneLib = () => !!window.libphonenumber && typeof window.libphonenumber.parsePhoneNumberFromString === "function";
   function normPhone(s){
     /* Exige + e código do país; devolve E.164 */
     const v = s.trim();
-    if (!v.startsWith("+") || !phoneLib()) return null;
+    if (!v.startsWith("+") || PHONE_BAD.test(v) || !phoneLib()) return null;
     const p = window.libphonenumber.parsePhoneNumberFromString(v);
     return p && p.isValid() ? p.number : null;
   }
@@ -836,6 +838,33 @@ const YEAR = 2027, MONTH = 0, FIRST_DAY = 14, LAST_DAY = 26, MAX_DAYS = 3;
       if (!inp.value.trim() || (k === "whatsapp" && !phoneLib())) return;
       field(k).classList.toggle("invalid", !fn(inp.value));
     });
+  });
+  /* Máscara a partir do DDI: com "+" no início, formata conforme o país (AsYouType); sem "+", só filtra */
+  let prevPhone = "";
+  form.whatsapp.addEventListener("input", e => {
+    const inp = form.whatsapp;
+    let raw = inp.value, caret = inp.selectionStart;
+    const digits = s => s.replace(/[^\d+]/g, "");
+    /* Backspace sobre espaço/hífen/parêntese da máscara: apaga o dígito anterior */
+    if (e.inputType === "deleteContentBackward" && digits(raw) === digits(prevPhone)) {
+      const i = raw.slice(0, caret).search(/\d[^\d]*$/);
+      if (i >= 0) { raw = raw.slice(0, i) + raw.slice(i + 1); caret = i; }
+    }
+    const clean = s => s.replace(/[^\d\s()+.-]/g, "").replace(/(?!^)\+/g, "");
+    let val = clean(raw);
+    let keep = digits(clean(raw.slice(0, caret))).length;
+    if (val.startsWith("+") && phoneLib() && window.libphonenumber.AsYouType) {
+      val = new window.libphonenumber.AsYouType().input(digits(val));
+      let pos = 0;
+      for (let n = 0; pos < val.length && n < keep; pos++) if (/[\d+]/.test(val[pos])) n++;
+      keep = pos;
+    } else {
+      keep = clean(raw.slice(0, caret)).length;
+    }
+    prevPhone = val;
+    if (val === inp.value) return;
+    inp.value = val;
+    inp.setSelectionRange(keep, keep);
   });
   form.querySelectorAll('input[name="periodo"]').forEach(i => i.addEventListener("change", () => clearErr("periodo")));
   form.querySelectorAll('input[name="grupo"]').forEach(i => i.addEventListener("change", () => clearErr("grupo")));
