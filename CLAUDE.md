@@ -15,7 +15,7 @@ Content and commit messages are in Brazilian Portuguese.
 - `/` (`index.html`) — main page, pt-BR.
 - `/en/` (`en/index.html`) — en-US translation of the main page. It is a separate copy, so content/layout changes to one must be mirrored in the other.
 - `/letramento/` — landing page for the in-person "Letramento de IA na Prática" event; CTAs go to Asaas checkout links and WhatsApp (links built at runtime from a `WHATSAPP` constant and `data-wa` attributes). `/letramento/termos/` holds the registration terms and privacy policy.
-- `/inscricao/` — pre-registration page (untracked/work in progress). Unlike the main site, it is bilingual in a single file via paired `<span data-lang="pt">` / `<span data-lang="en">` elements. Config lives in constants at the top of its script: `FORM_ENDPOINT` (POSTs JSON; when empty it only logs to console and shows the thank-you state), `VIDEO` sources, and the selectable date range.
+- `/register/` — pre-registration page (English path because the audience is mostly American). Unlike the main site, it is bilingual in a single file via paired `<span data-lang="pt">` / `<span data-lang="en">` elements. Config lives in constants at the top of its script: `FORM_ENDPOINT` (POSTs JSON; when empty it only logs to console and shows the thank-you state), `VIDEO` sources, and the selectable date range.
 
 ## Cross-page conventions
 
