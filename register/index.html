@@ -66,31 +66,123 @@ header.scrolled{border-bottom-color:var(--line)}
 @media (max-width:640px){.nav .btn{display:none}}
 
 /* Hero */
-.hero{padding:80px 0 72px}
-.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.hero{padding:clamp(40px,7vh,80px) 0 clamp(48px,7vh,72px)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(40px,6vw,80px);align-items:center}
 .pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
 .pill{font-size:13px;font-weight:600;color:#DCD6FF;background:#1A1530;border:1px solid #2F2650;padding:6px 12px;border-radius:999px}
 .hero h1{font-size:clamp(38px,6vw,66px);font-weight:800;margin-bottom:24px;max-width:15ch}
 .hero .lead{margin-bottom:34px}
 .hero-ctas{display:flex;flex-wrap:wrap;gap:12px}
-.hero-video{display:flex;flex-direction:column;align-items:center}
-.vframe{position:relative;width:100%;max-width:340px;aspect-ratio:9/16;border-radius:26px;overflow:hidden;background:var(--surface);border:1px solid #33295A;box-shadow:0 40px 90px -35px rgba(139,92,246,.45)}
-.vframe video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000}
-.hero-video{gap:24px}
-.hero-photos{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,1.6vw,20px)}
-.hero-photos figure{margin:0;min-width:0}
-.hero-photos .photo{aspect-ratio:3/4;border-radius:22px;overflow:hidden;border:1px solid rgba(236,236,243,.12)}
-.hero-photos img{display:block;width:100%;height:100%;object-fit:cover;object-position:center top}
-.hero-photos figcaption{margin-top:14px;font-size:14px;line-height:1.5;color:var(--muted)}
-.hero-photos figcaption strong{display:block;font-family:var(--display);font-weight:700;font-size:16px;color:#fff}
-.vframe[hidden]{display:none}
-.vframe::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(10,10,18,.85));pointer-events:none;transition:opacity .2s}
-.vframe.playing::after,.vframe.playing .vplay{opacity:0;visibility:hidden}
-.vplay{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);z-index:2;display:flex;align-items:center;gap:10px;white-space:nowrap;background:#fff;color:#0A0A12;border:0;border-radius:999px;padding:12px 20px 12px 12px;font:700 15px var(--body);cursor:pointer;transition:transform .15s}
-.vplay:hover{transform:translateX(-50%) scale(1.03)}
-.vplay i{width:32px;height:32px;border-radius:50%;background:var(--violet-strong);position:relative}
-.vplay i::after{content:"";position:absolute;left:12px;top:9px;border-left:11px solid #fff;border-top:7px solid transparent;border-bottom:7px solid transparent}
-@media (max-width:900px){.hero-grid{grid-template-columns:1fr;gap:40px}.hero-photos{max-width:640px}.vframe{max-width:300px}}
+/* Vídeo vertical da primeira dobra.
+   Estados em data-state: teaser (prévia muda em loop) | playing | paused | ended.
+   A altura acompanha a altura da tela para o vídeo caber inteiro na primeira dobra. */
+.hero-media{display:flex;flex-direction:column;align-items:center;gap:18px;min-width:0}
+.vframe{position:relative;height:clamp(380px,calc(100vh - 270px),640px);height:clamp(380px,calc(100svh - 270px),640px);aspect-ratio:9/16;max-width:100%;border-radius:28px;overflow:hidden;background:#1A1530;border:1px solid #33295A;box-shadow:0 40px 90px -35px rgba(139,92,246,.55),0 0 0 6px rgba(139,92,246,.06);isolation:isolate;user-select:none;-webkit-tap-highlight-color:transparent}
+.vframe video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.v-main{opacity:0;pointer-events:none;transition:opacity .3s}
+.vframe:not([data-state="teaser"]) .v-main{opacity:1;pointer-events:auto;cursor:pointer}
+.vframe::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,transparent 52%,rgba(10,10,18,.82));pointer-events:none;transition:opacity .3s}
+.vframe[data-state="playing"]::after,.vframe[data-state="paused"]::after{opacity:0}
+
+/* Botão de play: a área inteira do vídeo é clicável */
+.vplay{position:absolute;inset:0;z-index:3;display:flex;align-items:flex-end;justify-content:center;padding:0 14px 24px;background:none;border:0;color:inherit;cursor:pointer}
+.vplay:focus-visible{outline:none}
+.vplay:focus-visible .vplay-pill{outline:2px solid #fff;outline-offset:3px}
+.vplay-pill{display:flex;align-items:center;gap:12px;white-space:nowrap;background:#fff;color:#0A0A12;border-radius:999px;padding:8px 20px 8px 8px;box-shadow:0 14px 34px -10px rgba(0,0,0,.6);transition:transform .2s}
+.vplay:hover .vplay-pill{transform:scale(1.04)}
+.vplay i{flex:none;position:relative;width:38px;height:38px;border-radius:50%;background:var(--violet-strong)}
+.vplay i::after{content:"";position:absolute;left:14px;top:11px;border-left:13px solid #fff;border-top:8px solid transparent;border-bottom:8px solid transparent}
+.vplay i::before{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--violet-strong);animation:vpulse 2.2s ease-out infinite}
+@keyframes vpulse{from{transform:scale(.9);opacity:.9}to{transform:scale(1.5);opacity:0}}
+.vplay-txt{display:flex;flex-direction:column;align-items:flex-start;font:700 15px/1.2 var(--body)}
+.vplay-txt small{font:600 12px/1.3 var(--mono);color:#6A6A86}
+.vframe:not([data-state="teaser"]) .vplay{display:none}
+
+/* Carregando */
+.vspin{position:absolute;inset:0;z-index:2;display:none;place-items:center;pointer-events:none}
+.vspin .spinner{width:40px;height:40px;border-width:3px}
+.vframe.loading .vspin{display:grid}
+
+/* Controles (aparecem ao pausar, ao mover o mouse ou ao tocar no vídeo) */
+.vctrl{position:absolute;left:0;right:0;bottom:0;z-index:4;display:flex;flex-wrap:wrap;align-items:center;gap:2px 4px;padding:34px 8px 8px;background:linear-gradient(180deg,transparent,rgba(5,5,10,.8));opacity:0;visibility:hidden;transition:opacity .2s,visibility 0s .2s}
+.vframe[data-state="paused"] .vctrl,.vframe[data-state="playing"].ui .vctrl{opacity:1;visibility:visible;transition:opacity .2s}
+.vbtn{flex:none;display:grid;place-items:center;width:40px;height:40px;border:0;border-radius:50%;background:none;color:#fff;cursor:pointer;transition:background .15s}
+.vbtn:hover{background:rgba(255,255,255,.14)}
+.vbtn svg{width:22px;height:22px;fill:currentColor}
+#vtoggle .i-play,.vframe[data-state="paused"] #vtoggle .i-pause{display:none}
+.vframe[data-state="paused"] #vtoggle .i-play{display:inline}
+#vmute .i-off,.vframe.muted #vmute .i-on{display:none}
+.vframe.muted #vmute .i-off{display:inline}
+#vmute{margin-left:auto}
+.vtime{font:600 12px var(--mono);color:#E6E3F5;font-variant-numeric:tabular-nums;padding:0 4px}
+/* Barra de progresso: linha própria, largura total */
+.vseek{order:-1;flex:1 0 100%;--p:0%;-webkit-appearance:none;appearance:none;height:22px;margin:0;padding:0 6px;background:transparent;cursor:pointer}
+.vseek:focus{outline:none}
+.vseek:focus-visible{outline:2px solid var(--violet);outline-offset:-2px;border-radius:6px}
+.vseek::-webkit-slider-runnable-track{height:4px;border-radius:4px;background:linear-gradient(90deg,#E61EFD,#A855F5,#14D4DF) 0/var(--p) 100% no-repeat,rgba(255,255,255,.28)}
+.vseek::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;margin-top:-5px;border-radius:50%;background:#fff;border:0;box-shadow:0 1px 4px rgba(0,0,0,.4)}
+.vseek::-moz-range-track{height:4px;border-radius:4px;background:linear-gradient(90deg,#E61EFD,#A855F5,#14D4DF) 0/var(--p) 100% no-repeat,rgba(255,255,255,.28)}
+.vseek::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:#fff;border:0;box-shadow:0 1px 4px rgba(0,0,0,.4)}
+
+/* Tela cheia (desktop, Android e iPad; no iPhone usa o player nativo) */
+.vframe:fullscreen{height:100%;width:100%;max-width:none;border:0;border-radius:0;background:#000}
+.vframe:fullscreen video{object-fit:contain}
+.vframe:-webkit-full-screen{height:100%;width:100%;max-width:none;border:0;border-radius:0;background:#000}
+.vframe:-webkit-full-screen video{object-fit:contain}
+
+/* Fim do vídeo: chamada para a pré-inscrição */
+.vend{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px 20px;text-align:center;background:rgba(10,10,18,.76);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s}
+.vframe[data-state="ended"] .vend{opacity:1;visibility:visible;transition:opacity .3s}
+.vend-t{font:800 clamp(20px,2.2vw,25px)/1.2 var(--display);letter-spacing:-.02em;max-width:13ch;margin-bottom:6px}
+.vend .btn{width:100%;max-width:260px;padding:14px 16px;font-size:15px}
+.vreplay{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;background:none;border:0;border-radius:8px;color:var(--muted);font:600 14px var(--body);cursor:pointer}
+.vreplay:hover{color:#fff}
+.vreplay svg{width:17px;height:17px}
+
+/* Quem conduz (abaixo do vídeo) */
+.hosts{display:flex;align-items:center;gap:12px;max-width:100%;padding:6px 16px 6px 6px;border:1px solid var(--line);border-radius:999px;background:rgba(17,17,27,.7);text-decoration:none;transition:border-color .15s}
+.hosts:hover{border-color:#4A3A80}
+.hosts-av{display:flex;flex:none}
+.hosts-av img{width:38px;height:38px;border-radius:50%;border:2px solid var(--bg);background:var(--surface-2)}
+.hosts-av img + img{margin-left:-11px}
+.hosts-txt{display:flex;flex-direction:column;min-width:0;font-size:12.5px;line-height:1.35;color:var(--muted)}
+.hosts-txt strong{font-size:13.5px;font-weight:700;color:#fff}
+
+/* Tablet e celular: uma coluna, vídeo logo após o título */
+@media (max-width:900px){
+  .hero{padding:36px 0 56px}
+  .hero-grid{grid-template-columns:1fr;gap:0}
+  .hero-copy{display:contents}
+  .pills{order:1}
+  .hero h1{order:2;margin-bottom:28px}
+  .hero-media{order:3;margin-bottom:36px}
+  .hero .lead{order:4}
+  .hero-ctas{order:5}
+  .vframe{height:clamp(400px,calc(100vh - 360px),580px);height:clamp(400px,calc(100svh - 360px),580px);border-radius:24px}
+}
+@media (max-width:640px){
+  .hero{padding-top:22px}
+  .pills{flex-wrap:nowrap;gap:6px;margin-bottom:18px}
+  .pill{font-size:12px;padding:5px 10px;white-space:nowrap}
+  .pill:nth-child(3){display:none}
+  .hero h1{margin-bottom:22px}
+  .vplay-pill{padding-right:16px;gap:10px}
+  .vplay{padding:0 10px 18px}
+  .vplay-txt{font-size:14px}
+}
+
+@media (max-width:400px){.hero h1{font-size:34px}}
+
+/* Barra fixa de pré-inscrição (celular) */
+.mcta{display:none}
+@media (max-width:640px){
+  .mcta{position:fixed;left:0;right:0;bottom:0;z-index:25;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(10,10,18,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--line);transform:translateY(110%);visibility:hidden;transition:transform .25s ease,visibility 0s .25s}
+  .mcta.show{transform:none;visibility:visible;transition:transform .25s ease}
+  .mcta-txt{display:flex;flex-direction:column;min-width:0;font-size:12.5px;line-height:1.3;color:var(--muted)}
+  .mcta-txt strong{font-size:14px;color:#fff}
+  .mcta .btn{flex:none;padding:12px 20px;font-size:15px}
+  footer{padding-bottom:calc(100px + env(safe-area-inset-bottom))}
+}
 
 /* Facts row */
 .facts{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -283,7 +375,7 @@ footer nav{display:flex;flex-wrap:wrap;gap:18px}
 <!-- HERO -->
 <section class="hero">
   <div class="wrap hero-grid">
-    <div>
+    <div class="hero-copy">
       <div class="pills">
         <span class="pill"><span data-lang="pt">Presencial</span><span data-lang="en">In person</span></span>
         <span class="pill"><span data-lang="pt">Turma fechada por segmento</span><span data-lang="en">Closed groups by industry</span></span>
@@ -303,24 +395,47 @@ footer nav{display:flex;flex-wrap:wrap;gap:18px}
       </div>
     </div>
 
-    <div class="hero-video">
-      <div class="hero-photos">
-        <figure>
-          <div class="photo"><picture><source srcset="/assets/bruno.webp" type="image/webp"><img src="/assets/bruno.jpg" alt="Retrato de Bruno Mello" width="720" height="960" fetchpriority="high" decoding="async"></picture></div>
-          <figcaption><strong>Bruno Mello</strong><span data-lang="pt">CEO &amp; Cofundador</span><span data-lang="en">CEO &amp; Co-founder</span></figcaption>
-        </figure>
-        <figure>
-          <div class="photo"><picture><source srcset="/assets/anderson.webp" type="image/webp"><img src="/assets/anderson.jpg" alt="Retrato de Anderson Alves" width="720" height="960" fetchpriority="high" decoding="async"></picture></div>
-          <figcaption><strong>Anderson Alves</strong><span data-lang="pt">CTO &amp; Cofundador</span><span data-lang="en">CTO &amp; Co-founder</span></figcaption>
-        </figure>
-      </div>
-      <div class="vframe" id="vframe" hidden>
-        <video id="heroVideo" playsinline preload="metadata"></video>
+    <div class="hero-media">
+      <div class="vframe" id="vframe" role="region" aria-label="Vídeo de apresentação">
+        <video class="v-teaser" id="vTeaser" muted loop playsinline preload="none" poster="/assets/video/capa-pt.webp" aria-hidden="true" tabindex="-1"></video>
+        <video class="v-main" id="vMain" playsinline preload="none"></video>
+        <div class="vspin" aria-hidden="true"><span class="spinner"></span></div>
+
         <button type="button" class="vplay" id="vplay">
-          <i aria-hidden="true"></i>
-          <span data-lang="pt">Assistir à apresentação</span><span data-lang="en">Watch the introduction</span>
+          <span class="vplay-pill">
+            <i aria-hidden="true"></i>
+            <span class="vplay-txt">
+              <span data-lang="pt">Assistir com som</span><span data-lang="en">Watch with sound</span>
+              <small id="vdur">2:30</small>
+            </span>
+          </span>
         </button>
+
+        <div class="vctrl" id="vctrl">
+          <button type="button" class="vbtn" id="vtoggle" aria-label="Pausar"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-pause" d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/><path class="i-play" d="M8 5.5v13l10.5-6.5z"/></svg></button>
+          <input type="range" class="vseek" id="vseek" min="0" max="1000" step="1" value="0" aria-label="Progresso do vídeo">
+          <span class="vtime" id="vtime">0:00</span>
+          <button type="button" class="vbtn" id="vmute" aria-label="Silenciar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="i-on" d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path class="i-off" d="M15.5 9.5l5 5m0-5l-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+          <button type="button" class="vbtn" id="vfull" aria-label="Tela cheia"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+        </div>
+
+        <div class="vend" id="vend">
+          <p class="vend-t"><span data-lang="pt">Sua turma pode ser a próxima.</span><span data-lang="en">Your group could be next.</span></p>
+          <a class="btn btn-primary" href="#pre-inscricao" id="vendCta"><span data-lang="pt">Fazer minha pré-inscrição</span><span data-lang="en">Pre-register now</span></a>
+          <button type="button" class="vreplay" id="vreplay"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4.5h4.5"/></svg><span data-lang="pt">Assistir de novo</span><span data-lang="en">Watch again</span></button>
+        </div>
       </div>
+
+      <a class="hosts" href="#equipe">
+        <span class="hosts-av" aria-hidden="true">
+          <img src="/assets/video/avatar-bruno.webp" alt="" width="56" height="56" decoding="async">
+          <img src="/assets/video/avatar-anderson.webp" alt="" width="56" height="56" decoding="async">
+        </span>
+        <span class="hosts-txt">
+          <strong>Bruno Mello &amp; Anderson Alves</strong>
+          <span data-lang="pt">32+ letramentos para gestores e C-levels</span><span data-lang="en">32+ workshops for managers and C-levels</span>
+        </span>
+      </a>
     </div>
   </div>
 </section>
@@ -526,7 +641,7 @@ footer nav{display:flex;flex-wrap:wrap;gap:18px}
 </section>
 
 <!-- QUEM -->
-<section>
+<section id="equipe">
   <div class="wrap">
     <span class="tag">// <span data-lang="pt">quem vai te ensinar</span><span data-lang="en">your instructors</span></span>
     <h2><span data-lang="pt">Negócio e código na mesma sala.</span><span data-lang="en">Business and code in the same room.</span></h2>
@@ -704,6 +819,15 @@ footer nav{display:flex;flex-wrap:wrap;gap:18px}
 
 </main>
 
+<!-- Barra fixa de pré-inscrição (só no celular) -->
+<div class="mcta" id="mcta" aria-hidden="true">
+  <div class="mcta-txt">
+    <strong><span data-lang="pt">Janeiro de 2027</span><span data-lang="en">January 2027</span></strong>
+    <span><span data-lang="pt">NY e Texas · US$ 120</span><span data-lang="en">NY and Texas · US$ 120</span></span>
+  </div>
+  <a class="btn btn-primary" href="#pre-inscricao" tabindex="-1"><span data-lang="pt">Pré-inscrição</span><span data-lang="en">Pre-register</span></a>
+</div>
+
 <footer>
   <div class="wrap">
     <div>Bruno Mello &amp; Anderson Alves | Manycontent, Pyxis, Let's GEO, Brasil Prime Tech</div>
@@ -725,13 +849,15 @@ footer nav{display:flex;flex-wrap:wrap;gap:18px}
    de obrigado e registra os dados no console. */
 const FORM_ENDPOINT = "https://us-central1-manycontent-v2-prod.cloudfunctions.net/literacy-requests/register";
 
-/* Vídeo vertical da primeira dobra (9:16, .mp4).
-   Coloque o arquivo em /letramento/eua/assets/ e ajuste os caminhos.
-   Se tiver só uma versão, use o mesmo arquivo nas duas.
-   A capa (poster) é opcional: sem ela, aparecem as fotos de Bruno e Anderson. */
+/* Vídeo vertical da primeira dobra (9:16), um por idioma, em /assets/video/.
+   src: vídeo completo (720x1280, H.264, ~18 MB), baixado só quando a pessoa clica.
+   teaser: primeiros segundos, sem som, em loop (~270 KB), toca sozinho como capa animada.
+   poster: frame estático mostrado enquanto o teaser carrega.
+   dur: duração exibida no botão.
+   Para trocar de hospedagem (ex.: uma CDN), basta mudar as URLs. */
 const VIDEO = {
-  pt: { src: "", poster: "" },   // ex.: "assets/apresentacao-pt.mp4", "assets/capa-pt.jpg"
-  en: { src: "", poster: "" }    // ex.: "assets/apresentacao-en.mp4", "assets/capa-en.jpg"
+  pt: { src: "/assets/video/apresentacao-pt.mp4", teaser: "/assets/video/teaser-pt.mp4", poster: "/assets/video/capa-pt.webp", dur: "2:30" },
+  en: { src: "/assets/video/apresentacao-en.mp4", teaser: "/assets/video/teaser-en.mp4", poster: "/assets/video/capa-en.webp", dur: "2:30" }
 };
 
 /* Datas disponíveis */
@@ -761,26 +887,139 @@ const YEAR = 2027, MONTH = 0, FIRST_DAY = 14, LAST_DAY = 26, MAX_DAYS = 3;
   }
 
   /* ---------- Vídeo ---------- */
-  const vframe = document.getElementById("vframe");
-  const video = document.getElementById("heroVideo");
-  const vplay = document.getElementById("vplay");
-  function loadVideo(l){
-    const v = VIDEO[l] && VIDEO[l].src ? VIDEO[l] : (VIDEO.pt.src ? VIDEO.pt : VIDEO.en);
-    vframe.classList.remove("playing");
-    vframe.hidden = !v.src;
-    video.removeAttribute("controls");
-    if (!v.src){ video.removeAttribute("src"); vplay.style.display = "none"; return; }
-    vplay.style.display = "";
-    if (video.getAttribute("src") !== v.src){ video.src = v.src; video.load(); }
-    if (v.poster){ video.poster = v.poster; vframe.classList.add("has-poster"); }
-    else { video.removeAttribute("poster"); vframe.classList.remove("has-poster"); }
+  const $ = id => document.getElementById(id);
+  const vframe = $("vframe"), teaser = $("vTeaser"), main = $("vMain");
+  const vtoggle = $("vtoggle"), vseek = $("vseek"), vtime = $("vtime"), vmute = $("vmute"), vfull = $("vfull");
+  const tr = (pt, en) => html.dataset.l === "en" ? en : pt;
+  const fmt = s => { s = Math.max(0, Math.floor(s || 0)); return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); };
+  const conn = navigator.connection || {};
+  const lowData = !!conn.saveData || /(^|-)2g$/.test(conn.effectiveType || "");
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
+  let vcfg = null, vlang = null, inView = true, uiTimer = 0;
+
+  const state = () => vframe.dataset.state;
+  function setState(s){ vframe.dataset.state = s; vlabels(); }
+  function vlabels(){
+    vframe.setAttribute("aria-label", tr("Vídeo de apresentação", "Introduction video"));
+    vtoggle.setAttribute("aria-label", state() === "playing" ? tr("Pausar", "Pause") : tr("Reproduzir", "Play"));
+    vmute.setAttribute("aria-label", main.muted ? tr("Ativar som", "Unmute") : tr("Silenciar", "Mute"));
+    vfull.setAttribute("aria-label", tr("Tela cheia", "Full screen"));
+    vseek.setAttribute("aria-label", tr("Progresso do vídeo", "Video progress"));
+    vseek.setAttribute("aria-valuetext", fmt(main.currentTime) + " / " + fmt(main.duration));
   }
-  vplay.addEventListener("click", () => {
-    vframe.classList.add("playing");
-    video.controls = true;
-    video.play();
+  function progress(){
+    const d = main.duration || 0, p = d ? main.currentTime / d : 0;
+    vseek.value = Math.round(p * 1000);
+    vseek.style.setProperty("--p", (p * 100).toFixed(2) + "%");
+    vtime.textContent = fmt(main.currentTime) + (d ? " / " + fmt(d) : "");
+  }
+
+  /* Prévia muda: só toca visível, com a aba ativa e sem economia de dados/movimento reduzido */
+  function syncTeaser(){
+    const ok = state() === "teaser" && inView && !document.hidden && !lowData && !reduceMotion.matches;
+    if (!ok){ teaser.pause(); return; }
+    if (teaser.getAttribute("src") !== vcfg.teaser){ teaser.preload = "auto"; teaser.src = vcfg.teaser; }
+    const p = teaser.play(); if (p) p.catch(() => {});
+  }
+  function loadVideo(l){
+    const v = VIDEO[l] && VIDEO[l].src ? VIDEO[l] : VIDEO.pt;
+    if (vlang === l){ vlabels(); return; }
+    vlang = l; vcfg = v;
+    exitFull();
+    main.pause(); main.removeAttribute("src"); main.load();
+    teaser.pause(); teaser.removeAttribute("src"); teaser.load();
+    teaser.poster = v.poster;
+    $("vdur").textContent = v.dur || "";
+    vframe.classList.remove("loading", "ui", "muted");
+    setState("teaser");
+    progress();
+    syncTeaser();
+  }
+
+  function play(){ const p = main.play(); if (p) p.catch(() => { vframe.classList.remove("loading"); setState("paused"); }); }
+  function start(){
+    if (main.getAttribute("src") !== vcfg.src) main.src = vcfg.src;
+    else main.currentTime = 0;
+    main.muted = false;
+    teaser.pause();
+    vframe.classList.add("loading");
+    setState("playing");
+    play();                               /* chamado dentro do clique: o navegador libera o som */
+    showUi();
+  }
+  function showUi(){
+    vframe.classList.add("ui");
+    clearTimeout(uiTimer);
+    uiTimer = setTimeout(() => {
+      if (state() === "playing" && !$("vctrl").contains(document.activeElement)) vframe.classList.remove("ui");
+    }, 2600);
+  }
+  function exitFull(){
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+    else if (document.webkitFullscreenElement) document.webkitExitFullscreen();
+    if (main.webkitDisplayingFullscreen) main.webkitExitFullscreen();
+  }
+
+  $("vplay").addEventListener("click", start);
+  vtoggle.addEventListener("click", () => { main.paused ? play() : main.pause(); showUi(); });
+  main.addEventListener("pointerup", e => {
+    if (state() !== "playing" && state() !== "paused") return;
+    /* No toque, o primeiro toque só mostra os controles */
+    if (e.pointerType !== "mouse" && state() === "playing" && !vframe.classList.contains("ui")){ showUi(); return; }
+    main.paused ? play() : main.pause();
+    showUi();
   });
-  video.addEventListener("ended", () => { vframe.classList.remove("playing"); video.controls = false; video.currentTime = 0; });
+  vframe.addEventListener("pointermove", e => { if (e.pointerType === "mouse" && state() !== "teaser") showUi(); });
+  vframe.addEventListener("focusin", () => { if (state() !== "teaser") showUi(); });
+  vseek.addEventListener("input", () => {
+    if (main.duration) main.currentTime = vseek.value / 1000 * main.duration;
+    progress(); showUi();
+  });
+  vmute.addEventListener("click", () => { main.muted = !main.muted; showUi(); });
+  vfull.addEventListener("click", () => {
+    if (document.fullscreenElement || document.webkitFullscreenElement) exitFull();
+    else if (vframe.requestFullscreen) vframe.requestFullscreen().catch(() => {});
+    else if (vframe.webkitRequestFullscreen) vframe.webkitRequestFullscreen();
+    else if (main.webkitEnterFullscreen) main.webkitEnterFullscreen();   /* iPhone */
+  });
+  $("vreplay").addEventListener("click", () => { main.currentTime = 0; setState("playing"); play(); showUi(); });
+  $("vendCta").addEventListener("click", exitFull);
+
+  main.addEventListener("playing", () => { vframe.classList.remove("loading"); setState("playing"); });
+  main.addEventListener("waiting", () => vframe.classList.add("loading"));
+  main.addEventListener("canplay", () => vframe.classList.remove("loading"));
+  main.addEventListener("pause", () => { if (state() === "playing" && !main.ended){ setState("paused"); } });
+  main.addEventListener("ended", () => { exitFull(); vframe.classList.remove("ui"); setState("ended"); });
+  main.addEventListener("timeupdate", progress);
+  main.addEventListener("loadedmetadata", () => { progress(); vlabels(); });
+  main.addEventListener("volumechange", () => { vframe.classList.toggle("muted", main.muted); vlabels(); });
+
+  /* Fora da tela: pausa o vídeo e a prévia */
+  if ("IntersectionObserver" in window){
+    new IntersectionObserver(([e]) => {
+      inView = e.isIntersecting;
+      if (!inView && state() === "playing") main.pause();
+      syncTeaser();
+    }).observe(vframe);
+  }
+  document.addEventListener("visibilitychange", syncTeaser);
+  reduceMotion.addEventListener && reduceMotion.addEventListener("change", syncTeaser);
+
+  /* ---------- Barra fixa de pré-inscrição (celular) ---------- */
+  const mcta = $("mcta");
+  if ("IntersectionObserver" in window){
+    const heroCtas = document.querySelector(".hero-ctas"), formSec = $("pre-inscricao");
+    let ctaVis = true, formVis = false;
+    const io = new IntersectionObserver(es => {
+      /* "Visível" = na tela ou ainda abaixo dela; a barra só aparece depois que a pessoa rola além do botão */
+      es.forEach(e => { if (e.target === heroCtas) ctaVis = e.isIntersecting || e.boundingClientRect.top > 0; else formVis = e.isIntersecting; });
+      const show = !ctaVis && !formVis;
+      mcta.classList.toggle("show", show);
+      mcta.setAttribute("aria-hidden", !show);
+      mcta.querySelector("a").tabIndex = show ? 0 : -1;
+    }, {rootMargin: "0px 0px -40px 0px"});
+    io.observe(heroCtas); io.observe(formSec);
+  }
   document.querySelectorAll("[data-set-lang]").forEach(b => b.addEventListener("click", () => {
     setLang(b.dataset.setLang);
     const u = new URL(location); u.searchParams.set("lang", b.dataset.setLang); history.replaceState(null, "", u);
